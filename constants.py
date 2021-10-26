@@ -1,6 +1,7 @@
 # File to store constants used across the bot
+import os
 
-API_KEY = '2071600843:AAGIXs10jb5vnnhgBiL6JuQ8xIkB8YlBexA'
+API_KEY = os.environ.get('TELEGRAM_BOT_TOKEN')
 QUOTE_URL = 'https://api.quotable.io/random'
 
 

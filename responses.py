@@ -3,8 +3,7 @@
 from datetime import datetime
 import requests
 
-CHOICES: dict = {'0': ['Go back to Menu', menu()], '1': [
-                                                   'Who are you?', who()], '2': ['Random Quote', quote()]}
+global CHOICES
 
 
 def quote():
@@ -37,3 +36,7 @@ def responses(inp_text: str) -> str:
         return CHOICES[user_message][1]
 
     return 'Incorrect choice.'
+
+
+CHOICES: dict = {'0': ['Go back to Menu', menu()], '1': [
+                                                   'Who are you?', who()], '2': ['Random Quote', quote()]}

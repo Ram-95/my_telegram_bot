@@ -1,6 +1,6 @@
 import constants as keys
 from telegram.ext import *
-from responses import *
+from responses import responses
 
 print('Bot started...')
 
