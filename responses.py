@@ -2,8 +2,7 @@
 
 from datetime import datetime
 import requests
-
-global CHOICES
+import constants as keys
 
 
 def quote():
@@ -17,7 +16,7 @@ def quote():
 def menu():
     """Shows the Menu."""
     choices = ''
-    for i, v in CHOICES.items():
+    for i, v in keys.CHOICES.items():
         temp = f'{i}. {v[0]}\n'
         choices += temp
 
@@ -26,17 +25,25 @@ def menu():
 
 
 def who():
-    return 'I am a BOT!'
+    return 'I am a BOT! 🤖'
+
+def get_time():
+    now = datetime.now()
+    d = now.strftime('%d-%b-%y, %H:%M')
+    return f'⏲ {d}'
 
 
 def responses(inp_text: str) -> str:
     """Driver code for all the responses."""
     user_message = str(inp_text)
-    if user_message in CHOICES:
-        return CHOICES[user_message][1]
+    if user_message in keys.CHOICES:
+        if user_message == '1':
+            return who()
+        elif user_message == '0':
+            return menu()
+        elif user_message == '2':
+            return quote()
+        elif user_message == '3':
+            return get_time()
 
-    return 'Incorrect choice.'
-
-
-CHOICES: dict = {'0': ['Go back to Menu', menu()], '1': [
-                                                   'Who are you?', who()], '2': ['Random Quote', quote()]}
+    return 'Incorrect choice. 🤷‍♂️'

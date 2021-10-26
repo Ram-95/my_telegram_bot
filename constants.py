@@ -4,4 +4,4 @@ import os
 API_KEY = os.environ.get('TELEGRAM_BOT_TOKEN')
 QUOTE_URL = 'https://api.quotable.io/random'
 
-
+CHOICES: dict = {'0': ['Go back to Menu'], '1': ['Who are you?'], '2': ['Random Quote'], '3': ['Know Time']}
