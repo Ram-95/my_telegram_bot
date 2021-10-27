@@ -14,7 +14,7 @@ def quote():
 
 
 def menu():
-    """Shows the Menu."""
+    """Returns the command choices."""
     choices = ''
     for i, v in keys.CHOICES.items():
         temp = f'{i}. {v[0]}\n'
@@ -25,9 +25,11 @@ def menu():
 
 
 def who():
+    """Returns the name of the bot."""
     return 'I am a BOT! 🤖'
 
 def get_time():
+    """Returns the current time"""
     now = datetime.now()
     d = now.strftime('%d-%b-%y, %H:%M')
     return f'⏲ {d}'

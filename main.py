@@ -1,3 +1,4 @@
+from telegram.update import Update
 import constants as keys
 from telegram.ext import *
 from responses import *
@@ -5,15 +6,16 @@ from responses import *
 print('Bot started...')
 
 
-def start_command(update, context) -> str:
+def start_command(update, context):
     """Handles the /start command"""
+    uname = update.message.from_user.first_name
     update.message.reply_text(
-        f'Hi there! 🖐\nPut in a command to get started...')
+        f'Hi there, {uname}! 🖐\nPut in a command to get started...')
     x = menu()
     update.message.reply_text(x)
 
 
-def help_command(update, context) -> str:
+def help_command(update, context):
     """Handles the /help command"""
     update.message.reply_text('Are you seeking for help?')
 
@@ -29,10 +31,12 @@ def handle_message(update, context):
 
 
 def error(update, context):
+    """Handles if any error occurs."""
     print(f'Update {update} caused the issue {context.error}')
 
 
 def main():
+    """Driver Code."""
     updater = Updater(keys.API_KEY, use_context=True)
     dp = updater.dispatcher
 
