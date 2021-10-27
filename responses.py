@@ -46,4 +46,4 @@ def responses(inp_text: str) -> str:
         elif user_message == '3':
             return get_time()
 
-    return 'Incorrect choice. 🤷‍♂️'
+    return f'Incorrect choice. 🤷‍♂️\n{menu()}'

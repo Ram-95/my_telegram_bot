@@ -5,13 +5,12 @@ from responses import *
 print('Bot started...')
 
 
-
 def start_command(update, context) -> str:
     """Handles the /start command"""
+    update.message.reply_text(
+        f'Hi there! 🖐\nPut in a command to get started...')
     x = menu()
-    update.message.reply_text(f'Hi there! 🖐\nPut in a command to get started...')
     update.message.reply_text(x)
-    
 
 
 def help_command(update, context) -> str:
