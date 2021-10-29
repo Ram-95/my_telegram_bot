@@ -1,5 +1,4 @@
 from telegram.update import Update
-import constants as keys
 from telegram.ext import *
 from responses import *
 
@@ -37,7 +36,7 @@ def error(update, context):
 
 def main():
     """Driver Code."""
-    updater = Updater(keys.API_KEY, use_context=True)
+    updater = Updater(API_KEY, use_context=True)
     dp = updater.dispatcher
 
     # Command Handlers
