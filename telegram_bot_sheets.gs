@@ -5,7 +5,6 @@ var sheetID = '<YOUR SHEET ID>';
 var QUOTE_URL = 'https://api.quotable.io/random';
 var SO_URL = 'https://api.stackexchange.com/2.3/users/2773206?order=desc&sort=reputation&site=stackoverflow';
 
-
 function getMe() {
   var url = telegramURL + '/getMe';
   var resp = UrlFetchApp.fetch(url);
@@ -44,14 +43,15 @@ function fetchQuote() {
 
 function getSOrating() {
   var response = UrlFetchApp.fetch(SO_URL);
+  var totals = {'rep': 0, 'gold': 0, 'silver': 0, 'bronze': 0};
   var data =  JSON.parse(response.getContentText());
-  var rep = data.items[0].reputation;
-  var gold = data.items[0].badge_counts.gold;
-  var silver = data.items[0].badge_counts.silver;
-  var bronze = data.items[0].badge_counts.bronze;
-  var badges = '👑 Reputation: ' + rep + '🥇 Gold: ' + gold + '🥈 Silver: ' + silver + '🥉 Bronze: ' + bronze;
-  Logger.log(badges);
-  return badges;
+  totals.rep = data.items[0].reputation;
+  totals.gold = data.items[0].badge_counts.gold;
+  totals.silver = data.items[0].badge_counts.silver;
+  totals.bronze = data.items[0].badge_counts.bronze;
+  //var badges = '👑 Reputation: ' + rep + '\n\n🥇 Gold: ' + gold + '\n🥈 Silver: ' + silver + '\n🥉 Bronze: ' + bronze;
+  Logger.log(totals);
+  return totals;
 }
 
 function getAllSheetNames() {
@@ -82,10 +82,11 @@ function doPost(e) {
     }
     else if(command=='so') {
       SO_resp = getSOrating();
-      sendText(id, SO_resp);
+      sendText(id, '👑 Reputation: ' + SO_resp.rep) 
+      sendText(id, '🥇 Gold: ' + SO_resp.gold + ' 🥈 Silver: ' + SO_resp.silver + ' 🥉 Bronze: ' + SO_resp.bronze);
     }
     else {
-      sendText(id, 'Unknown Command.');
+      sendText(id, 'Unknown Command ❗');
     }
   }
   // Creating new sheets inside the spreadsheet
