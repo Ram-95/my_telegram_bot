@@ -2,6 +2,9 @@ var token = '<YOUR TELEGRAM TOKEN>';
 var telegramURL =  'https://api.telegram.org/bot' + token;
 var webAppURL = '<YOUR WEBAPP URL>';
 var sheetID = '<YOUR SHEET ID>';
+var QUOTE_URL = 'https://api.quotable.io/random';
+var SO_URL = 'https://api.stackexchange.com/2.3/users/2773206?order=desc&sort=reputation&site=stackoverflow';
+
 
 function getMe() {
   var url = telegramURL + '/getMe';
@@ -31,12 +34,33 @@ function sendText(id, text) {
 }
 
 
+function fetchQuote() {
+  var response = UrlFetchApp.fetch(QUOTE_URL);
+  var data = JSON.parse(response.getContentText());
+  var quote = data.content + ' - ' + data.author;
+  Logger.log(quote);
+  return quote
+}
+
+function getSOrating() {
+  var response = UrlFetchApp.fetch(SO_URL);
+  var data =  JSON.parse(response.getContentText());
+  var rep = data.items[0].reputation;
+  var gold = data.items[0].badge_counts.gold;
+  var silver = data.items[0].badge_counts.silver;
+  var bronze = data.items[0].badge_counts.bronze;
+  var badges = '👑 Reputation: ' + rep + '🥇 Gold: ' + gold + '🥈 Silver: ' + silver + '🥉 Bronze: ' + bronze;
+  Logger.log(badges);
+  return badges;
+}
+
 function getAllSheetNames() {
   var res = new Array();
   var sheets = SpreadsheetApp.getActiveSpreadsheet().getSheets();
   for (var i=0; i< sheets.length; i++) {
     res.push('@' + sheets[i].getName());
   }
+  //Logger.log(res.join('\n'));
   return res;
 }
 
@@ -49,9 +73,23 @@ function doPost(e) {
   var name = contents.message.from.first_name;
   var spreadSheet = SpreadsheetApp.openById(sheetID);
   
-  
+  if (/^\//.test(text)) {
+    var command = text.slice(1).split(' ')[0];
+    Logger.log(command);
+    if(command=='quote') {
+      var resp_quote = fetchQuote();
+      sendText(id, '❔ ' + resp_quote);
+    }
+    else if(command=='so') {
+      SO_resp = getSOrating();
+      sendText(id, SO_resp);
+    }
+    else {
+      sendText(id, 'Unknown Command.');
+    }
+  }
   // Creating new sheets inside the spreadsheet
-  if(/^@/.test(text)) {
+  else if(/^@/.test(text)) {
     var sheetName = text.slice(1).split(' ')[0];
     var newText = text.split(' ').slice(1).join(' ');
     var id = contents.message.from.id;
